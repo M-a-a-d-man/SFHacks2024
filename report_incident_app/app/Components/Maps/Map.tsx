@@ -6,11 +6,15 @@ import {useEffect} from "react";
     version: "weekly",
   });
   
+
   export const MapComponent = () => {
     useEffect(() => {
       const initMap = async () => {
         try {
           const { Map } = await loader.importLibrary('maps');
+          const {Geometry} = await loader.importLibrary('geometry');
+          
+
           const mapOptions = {
             center: { lat: 0, lng: 0 }, // Default to center of the map
             zoom: 8, // Default zoom level

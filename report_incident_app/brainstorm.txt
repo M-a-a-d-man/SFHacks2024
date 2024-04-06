@@ -1,0 +1,18 @@
+
+
+
+
+
+
+report_time: date
+hazard_id: 
+last_report_user:
+coordinates: 
+{
+
+
+}
+
+
+
+
