@@ -39,5 +39,5 @@ import {useEffect} from "react";
       initMap();
     }, []); // empty dependency array ensures the effect runs only once
   
-    return <div id="map" style={{ width: '100%', height: '400px' }} />;
+    return <div id="map" className="h-screen w-screen flex items-center justify-center" />;
   };
