@@ -1,10 +1,16 @@
 import Image from "next/image";
+import {InitMap} from "./Components/Maps/Map";
+
+
 
 export default function Home() {
   return (
-    <main>
-      
 
+    <main>
+      <div id="map" className="">
+        <InitMap/>
+
+      </div>
 
     </main>
    
