@@ -8,6 +8,28 @@ const loader = new Loader({
     version: "weekly",
 });
 
+interface mapOptions{
+    center: { lat: number, lng: number },
+    zoom: number,
+}
+
+export function getCurrentLocation(mapOptions:mapOptions){
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(position => {
+            return{
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            };    
+        }, error => {
+            console.error('Error getting user location:', error);
+            return mapOptions.center;
+        });
+    } else {
+        console.error('Geolocation is not supported by this browser.');
+        return mapOptions.center;
+    }
+}
+
 export const initMap = async () => {
     try {
         const { Map, Circle } = await loader.importLibrary('maps'); // Import Circle class
