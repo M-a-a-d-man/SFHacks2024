@@ -1,5 +1,5 @@
 import { Loader } from "@googlemaps/js-api-loader"
-import {test, polyLine} from '../../../public/middleware/locationcalc.ts'
+import {test, draw_circle} from '../../../public/middleware/locationcalc.ts'
 import {useEffect} from "react";
 
 const loader = new Loader({
@@ -26,18 +26,8 @@ export const MapComponent = () => {
                             lng: position.coords.longitude
                         };
                         const map = new Map(document.getElementById("map"), mapOptions);
-
+                        draw_circle(mapOptions.center, 100, map)
                         // Create a circle around the user's current location
-                        const userCircle = new Circle({
-                            strokeColor: "#FF0000",
-                            strokeOpacity: 0.8,
-                            strokeWeight: 2,
-                            fillColor: "#FF0000",
-                            fillOpacity: 0.35,
-                            map: map,
-                            center: mapOptions.center, // Center of the circle is user's current location
-                            radius: 10000 // Example radius in meters (adjust as needed)
-                        });
                     }, error => {
                         console.error('Error getting user location:', error);
                         new Map(document.getElementById("map"), mapOptions);

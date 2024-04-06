@@ -9,9 +9,6 @@ export default function Home() {
 
     <MapComponent/>
 
-    {test()}
-    {polyLine()}
-      
     </main>
    
   );
