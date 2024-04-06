@@ -1,31 +1,28 @@
 import IconButton from '@mui/material/IconButton';
 import CrisisAlertIcon from '@mui/icons-material/CrisisAlert';
 import { initMap } from '../Maps/Map';
-import { Loader } from "@googlemaps/js-api-loader";
-
-const loader = new Loader({
-    apiKey: "AIzaSyAKcdk8y3vAzqhYFJhJy5E4V51rPBl4Zf4",
-    version: "weekly",
-});
-
-async function createRadius(){
-    try{
-        const {Circle} = await loader.importLibrary('maps');
-        
+import { draw_circle } from '../../../public/middleware/locationcalc';
 
 
-
-    }catch (error) {
-        console.log("Map not loaded.", error);
-    }
-
-
-     
-
+function createRadius(){
+     // Add marker at the center
+     var marker = new google.maps.Marker({
+        position: centerLocation,
+        map: map,
+        title: 'Center Marker'
+    });
 
 }
 
 export default function Button() {
+    const addCircleToMap = () => {
+        if (window.myMapGlobal) {
+            // Assuming window.myMapGlobal.center gives the current center. Adjust according to your implementation.
+            const center = { lat: window.myMapGlobal.center.lat(), lng: window.myMapGlobal.center.lng() };
+            draw_circle(center, 100, window.myMapGlobal);
+        }
+    };
+
     return (
         <div style={{
             position: 'fixed', 
@@ -43,7 +40,7 @@ export default function Button() {
             cursor: 'pointer' // Changes the mouse cursor to indicate it's clickable
         }}> 
             <IconButton 
-              onClick={initMap}
+              onClick={addCircleToMap}
               style={{ 
                   color: 'white', // Ensures the icon is white
                   marginRight: '8px', // Adds some space between the icon and text

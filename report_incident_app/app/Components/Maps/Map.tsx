@@ -12,6 +12,7 @@ interface mapOptions{
     center: { lat: number, lng: number },
     zoom: number,
 }
+window.myMapGlobal = null;
 
 export function getCurrentLocation(mapOptions:mapOptions){
     if (navigator.geolocation) {
@@ -47,6 +48,7 @@ export const initMap = async () => {
                     lng: position.coords.longitude
                 };
                 const map = new Map(document.getElementById("map"), mapOptions);
+                window.myMapGlobal = map; 
                 draw_circle(mapOptions.center, 100, map);
             }, error => {
                 console.error('Error getting user location:', error);
