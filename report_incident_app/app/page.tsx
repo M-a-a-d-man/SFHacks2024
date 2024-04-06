@@ -1,5 +1,6 @@
+'use client'
 import Image from "next/image";
-import {InitMap} from "./Components/Maps/Map";
+import {MapComponent} from "./Components/Maps/Map";
 
 
 
@@ -7,10 +8,8 @@ export default function Home() {
   return (
 
     <main>
-      <div id="map" className="">
-        <InitMap/>
-
-      </div>
+      
+      <MapComponent/>
 
     </main>
    
