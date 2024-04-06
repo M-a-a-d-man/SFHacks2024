@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@googlemaps/google-maps-services-js": "^3.3.42",
     "@googlemaps/js-api-loader": "^1.16.6",
     "@mui/icons-material": "^5.15.15",
     "express": "^4.19.2",
