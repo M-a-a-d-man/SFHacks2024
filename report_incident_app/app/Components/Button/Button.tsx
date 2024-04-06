@@ -11,7 +11,6 @@ function createRadius(){
         map: map,
         title: 'Center Marker'
     });
-
 }
 
 export default function Button() {
