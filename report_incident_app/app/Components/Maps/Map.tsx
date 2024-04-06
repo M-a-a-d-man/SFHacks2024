@@ -16,7 +16,7 @@ export const MapComponent = () => {
 
                 const mapOptions = {
                     center: { lat: 0, lng: 0 },
-                    zoom: 8,
+                    zoom: 18,
                 };
 
                 // Try to get user's current location

@@ -8,7 +8,7 @@ export function test(data){
     console.log(data);
 }
 
-export async function draw_circle(center: {lat, lng}, radius, map){
+export async function draw_circle(center: {lat: number, lng: number}, radius: number, map: HTMLElement){
 
     const { Circle } = await loader.importLibrary('maps'); // Import Circle class
     const userCircle = new Circle({
