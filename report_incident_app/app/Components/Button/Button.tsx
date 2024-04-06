@@ -1,15 +1,27 @@
 import IconButton from '@mui/material/IconButton';
 import CrisisAlertIcon from '@mui/icons-material/CrisisAlert';
 import { initMap } from '../Maps/Map';
+import { Loader } from "@googlemaps/js-api-loader";
+
+const loader = new Loader({
+    apiKey: "AIzaSyAKcdk8y3vAzqhYFJhJy5E4V51rPBl4Zf4",
+    version: "weekly",
+});
+
+async function createRadius(){
+    try{
+        const {Circle} = await loader.importLibrary('maps');
+        
 
 
-function createRadius(){
-     // Add marker at the center
-     var marker = new google.maps.Marker({
-        position: centerLocation,
-        map: map,
-        title: 'Center Marker'
-    });c
+
+    }catch (error) {
+        console.log("Map not loaded.", error);
+    }
+
+
+     
+
 
 }
 
