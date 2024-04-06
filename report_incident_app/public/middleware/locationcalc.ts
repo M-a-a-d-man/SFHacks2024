@@ -13,10 +13,10 @@ export async function draw_circle(center: {lat: number, lng: number}, radius: nu
     const { Circle } = await loader.importLibrary('maps'); // Import Circle class
     const userCircle = new Circle({
         strokeColor: "#00ABF0",
-        strokeOpacity: 0.01,
-        strokeWeight: 2,
+        strokeOpacity: 0.5,
+        strokeWeight: 5,
         fillColor: "#00ABF0",
-        fillOpacity: 0.01,
+        fillOpacity: 0.5,
         map: map,
         center: center, // Center of the circle is user's current location
         radius: radius // Example radius in meters (adjust as needed)
