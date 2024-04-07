@@ -1,11 +1,11 @@
-import dbConnect from 'app/db';
+import connectDB from '../../../app/db';
 import Hazards from '../../../models/hazard';
-await dbConnect();
+await connectDB();
 
 export default async function handler(req, res) {
 
   if (req.method === 'POST') {
-    console.log("POST");
+
     try {
       const hazard = await Hazards.create(req.body);
       res.status(201).json({ success: true, data: hazard });

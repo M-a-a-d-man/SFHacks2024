@@ -13,6 +13,7 @@ function createRadius(){
     });
 }
 
+/*
 const saveHazardToDatabase = async (center, radius) => {
     // Create an object with the data you want to save
     const hazardData = {
@@ -24,6 +25,7 @@ const saveHazardToDatabase = async (center, radius) => {
     // Send the data to the server
     await postData(hazardData);
 };
+*/
 
 export default function Button() {
     const addCircleToMap = () => {
