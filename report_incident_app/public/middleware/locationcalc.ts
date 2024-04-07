@@ -2,6 +2,7 @@ import { Loader } from "@googlemaps/js-api-loader"
 const loader = new Loader({
     apiKey: "AIzaSyAKcdk8y3vAzqhYFJhJy5E4V51rPBl4Zf4",
     version: "weekly",
+    libraries: ["places", "geometry"],
 });
 
 export function test(data){

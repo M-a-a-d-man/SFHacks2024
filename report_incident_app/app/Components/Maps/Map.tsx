@@ -1,11 +1,15 @@
 import { Loader } from "@googlemaps/js-api-loader";
 import {test, draw_circle, snap_road} 
     from '../../../public/middleware/locationcalc';
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import SearchIcon from '@mui/icons-material/Search';
 
 const loader = new Loader({
     apiKey: "AIzaSyAKcdk8y3vAzqhYFJhJy5E4V51rPBl4Zf4",
     version: "weekly",
+    libraries: ["places", "geometry"],
 });
 
 interface mapOptions{
@@ -49,6 +53,7 @@ export const initMap = async () => {
                 };
                 const map = new Map(document.getElementById("map"), mapOptions);
                 window.myMapGlobal = map; 
+                // draw_circle(mapOptions.center, 100, map);
             }, error => {
                 console.error('Error getting user location:', error);
                 new Map(document.getElementById("map"), mapOptions);
@@ -63,8 +68,61 @@ export const initMap = async () => {
 };
 
 export const MapComponent = () => {
+    const [searchQuery, setSearchQuery] = useState('');
+
     useEffect(() => {
         initMap();
-    }, []); // empty dependency array ensures the effect runs only once
-    return <div id="map" className="h-screen w-screen flex items-center justify-center"/>;
+    }, []);
+
+    const handleSearch = () => {
+        if (!window.myMapGlobal) {
+            console.error('Map not initialized');
+            return;
+        }
+
+        const service = new google.maps.places.PlacesService(window.myMapGlobal);
+        const request = {
+            query: searchQuery,
+            fields: ['name', 'geometry'],
+        };
+
+        service.textSearch(request, (results, status) => {
+            if (status === google.maps.places.PlacesServiceStatus.OK && results) {
+                // Clear existing markers or results if necessary
+
+                results.forEach((place) => {
+                    // For each result, you can create a marker
+                    new google.maps.Marker({
+                        position: place.geometry.location,
+                        map: window.myMapGlobal,
+                        title: place.name,
+                    });
+
+                    // Optionally, adjust the map's viewport to the search result
+                    window.myMapGlobal.setCenter(place.geometry.location);
+                });
+            } else {
+                console.error('Places search failed due to: ' + status);
+            }
+        });
+    };
+
+    return (
+        <>
+            <div className="fixed top-0 left-1/2 transform -translate-x-1/2 z-10 mt-4 p-2 bg-white shadow-lg flex items-center">
+                <TextField
+                    size="small"
+                    variant="outlined"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Search places"
+                    className="flex-grow"
+                />
+                <Button variant="contained" color="primary" onClick={handleSearch} className="ml-2">
+                    <SearchIcon />
+                </Button>
+            </div>
+            <div id="map" className="h-screen w-screen"/>
+        </>
+    );
 };
