@@ -5,6 +5,7 @@ import {useEffect, useState} from "react";
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import SearchIcon from '@mui/icons-material/Search';
+import { fetchData } from '../../../public/api/api'; // Correct the import path as needed
 
 const loader = new Loader({
     apiKey: "AIzaSyAKcdk8y3vAzqhYFJhJy5E4V51rPBl4Zf4",
@@ -53,7 +54,6 @@ export const initMap = async () => {
                 };
                 const map = new Map(document.getElementById("map"), mapOptions);
                 window.myMapGlobal = map; 
-                // draw_circle(mapOptions.center, 100, map);
             }, error => {
                 console.error('Error getting user location:', error);
                 new Map(document.getElementById("map"), mapOptions);
@@ -71,7 +71,19 @@ export const MapComponent = () => {
     const [searchQuery, setSearchQuery] = useState('');
 
     useEffect(() => {
-        initMap();
+        // This function is defined to use async/await inside useEffect
+        const fetchAndDrawHazards = async () => {
+            await initMap(); // Make sure the map is initialized
+
+            const hazards = await fetchData(); // Fetch hazards from the backend
+            if (hazards && window.myMapGlobal) {
+                hazards.forEach(hazard => {
+                    draw_circle(hazard.coordinates, hazard.radius, window.myMapGlobal); // Draw circles for each hazard
+                });
+            }
+        };
+
+        fetchAndDrawHazards(); // Call the function
     }, []);
 
     const handleSearch = () => {

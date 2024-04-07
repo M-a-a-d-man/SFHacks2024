@@ -1,10 +1,11 @@
-import dbConnect from '../../../utils/db';
+import dbConnect from 'app/db';
 import Hazards from '../../../models/hazard';
+await dbConnect();
 
 export default async function handler(req, res) {
-  await dbConnect();
 
   if (req.method === 'POST') {
+    console.log("POST");
     try {
       const hazard = await Hazards.create(req.body);
       res.status(201).json({ success: true, data: hazard });
@@ -14,7 +15,7 @@ export default async function handler(req, res) {
   } else if (req.method === 'GET') {
     try {
       const hazards = await Hazards.find({});
-      res.status(200).json({ success: true, data: hazards });
+      res.status(200).json({ success: true, data: hazards.map(h => ({ coordinates: h.coordinates, radius: 100 })) }); // Modify as needed
     } catch (error) {
       res.status(400).json({ success: false });
     }

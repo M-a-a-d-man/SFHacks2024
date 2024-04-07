@@ -11,7 +11,6 @@ const uri = "mongodb+srv://nainghtet0123:j9yumg8HxZ1lSThP@sfsu2024.5vhnv57.mongo
 
 const client = new MongoClient(uri);
 
-
   try {
     const database = client.db('data');
     const values = database.collection('values');

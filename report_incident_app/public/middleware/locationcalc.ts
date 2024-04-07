@@ -5,9 +5,9 @@ const loader = new Loader({
     libraries: ["places", "geometry"],
 });
 
-export function test(data){
-    console.log(data);
-}
+// export function test(data){
+//     console.log(data);
+// }
 
 export async function draw_circle(center: {lat: number, lng: number}, radius: number, map: HTMLElement){
 

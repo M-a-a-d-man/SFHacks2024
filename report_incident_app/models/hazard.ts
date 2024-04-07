@@ -2,8 +2,8 @@ import mongoose from 'mongoose';
 
 const hazardSchema = new mongoose.Schema({
     coordinates: {   
-        lat:number, 
-        lng:number
+        lat:Number, 
+        lng:Number
     },
     lastReportedTime: Date
 });

@@ -2,7 +2,7 @@ import IconButton from '@mui/material/IconButton';
 import CrisisAlertIcon from '@mui/icons-material/CrisisAlert';
 import { initMap } from '../Maps/Map';
 import { draw_circle } from '../../../public/middleware/locationcalc';
-
+import { postData } from '../../../public/api/api'; // Correct the import path as needed
 
 function createRadius(){
      // Add marker at the center
@@ -13,12 +13,25 @@ function createRadius(){
     });
 }
 
+const saveHazardToDatabase = async (center, radius) => {
+    // Create an object with the data you want to save
+    const hazardData = {
+        coordinates: center,
+        radius: radius,
+        lastReportedTime: new Date()
+    };
+
+    // Send the data to the server
+    await postData(hazardData);
+};
+
 export default function Button() {
     const addCircleToMap = () => {
         if (window.myMapGlobal) {
-            // Assuming window.myMapGlobal.center gives the current center. Adjust according to your implementation.
             const center = { lat: window.myMapGlobal.center.lat(), lng: window.myMapGlobal.center.lng() };
-            draw_circle(center, 100, window.myMapGlobal);
+            const radius = 100; // Example radius, adjust as needed
+            draw_circle(center, radius, window.myMapGlobal);
+            saveHazardToDatabase(center, radius); // Save the hazard to the database
         }
     };
 

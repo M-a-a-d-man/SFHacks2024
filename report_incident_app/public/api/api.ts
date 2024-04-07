@@ -2,19 +2,19 @@
 /**
  * @return javascript object.
  */
-export async function fetchData(){
-    fetch('/api/data')
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-  })
-  .catch(error => {
-    console.error('There was a problem with your fetch operation:', error);
-    return null;
-  });
-}
+export async function fetchData() {
+    try {
+      const response = await fetch('/api/hazards'); // Adjust the endpoint as needed
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      return data.success ? data.data : [];
+    } catch (error) {
+      console.error('There was a problem with your fetch operation:', error);
+      return [];
+    }
+  }
 
 interface DataType{
     report_time: Date,
