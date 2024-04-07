@@ -13,10 +13,10 @@ export async function draw_circle(center: {lat: number, lng: number}, radius: nu
     const { Circle } = await loader.importLibrary('maps'); // Import Circle class
     const userCircle = new Circle({
         strokeColor: "#00ABF0",
-        strokeOpacity: 0.5,
+        strokeOpacity: 0.01,
         strokeWeight: 5,
         fillColor: "#00ABF0",
-        fillOpacity: 0.5,
+        fillOpacity: 0.01,
         map: map,
         center: center, // Center of the circle is user's current location
         radius: radius // Example radius in meters (adjust as needed)
@@ -38,32 +38,36 @@ export async function draw_circle(center: {lat: number, lng: number}, radius: nu
     circlePath.push(latLng);
     }
 
-    snap_road(circlePath);
+    snap_road(circlePath, map);
 }
 
-export async function snap_road (coordinates) {
+export async function drawDangerousRoadsOnMap(coordinates, map) {
+    const { Polyline } = await loader.importLibrary('maps'); // Import Polyline class
 
-    const snapToRoadsRequest = {
-        path: coordinates.map(coord => `${coord.lat},${coord.lng}`).join("|"),
-        interpolate: true, // Optional parameter to interpolate points between known points
-        key: loader.apiKey
-    };
-
-    fetch(`https://roads.googleapis.com/v1/snapToRoads?path=${snapToRoadsRequest.path}&interpolate=${snapToRoadsRequest.interpolate}&key=${snapToRoadsRequest.key}`)
-        .then(response => response.json())
-    .then(data => {
-        // Handle the response
-        let placeIds = []
-        let points = data.snappedPoints;
-        for ( let i = 0 ; i < points.length ; i++ ){
-            if ( !placeIds.includes(points[i].placeId) )
-                placeIds.push(points[i].placeId);
-        }
-        console.log(placeIds);
-
-    })
-    .catch(error => {
-        console.error("Error:", error);
+    const dangerousRoadPath = new Polyline({
+        path: coordinates,
+        geodesic: true,
+        strokeColor: '#FF0000',
+        strokeOpacity: 1.0,
+        strokeWeight: 2,
+        map: map,
     });
 }
 
+export async function snap_road(coordinates, map) {
+    // Convert coordinates array to a string format required by the API
+    const pathString = coordinates.map(coord => `${coord.lat},${coord.lng}`).join("|");
+
+    fetch(`https://roads.googleapis.com/v1/snapToRoads?path=${pathString}&interpolate=true&key=${loader.apiKey}`)
+        .then(response => response.json())
+        .then(data => {
+            // Extract the snapped points' coordinates
+            const roadCoordinates = data.snappedPoints.map(point => {
+                return { lat: point.location.latitude, lng: point.location.longitude };
+            });
+            drawDangerousRoadsOnMap(roadCoordinates, map);
+        })
+        .catch(error => {
+            console.error("Error:", error);
+        });
+}

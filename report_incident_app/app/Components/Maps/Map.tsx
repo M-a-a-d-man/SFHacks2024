@@ -49,7 +49,6 @@ export const initMap = async () => {
                 };
                 const map = new Map(document.getElementById("map"), mapOptions);
                 window.myMapGlobal = map; 
-                draw_circle(mapOptions.center, 100, map);
             }, error => {
                 console.error('Error getting user location:', error);
                 new Map(document.getElementById("map"), mapOptions);
