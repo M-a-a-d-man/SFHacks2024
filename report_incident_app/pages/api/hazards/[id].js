@@ -7,7 +7,7 @@ export default async function handler(req, res) {
         method,
     } = req;
 
-    await connectDB();
+    // await connectDB();
 
     switch (req.method) {
         console.log(req.method)

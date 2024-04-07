@@ -69,8 +69,27 @@ export const initMap = async () => {
 export const MapComponent = () => {
     const [searchQuery, setSearchQuery] = useState('');
 
-    initMap();
+    useEffect(() => {
+        // Initialize the map
+        initMap().then(() => {
+            // Once the map is initialized, fetch and draw the saved hazards
+            fetchSavedHazards();
+        });
+    }, []); // The empty dependency array ensures this useEffect runs only once on component mount
 
+    const fetchSavedHazards = async () => {
+        try {
+            const response = await fetch('/api/hazards'); // Adjust the endpoint as necessary
+            const data = await response.json();
+            if (data.success && window.myMapGlobal) {
+                data.data.forEach(hazard => {
+                    draw_circle(hazard.coordinates, hazard.radius, window.myMapGlobal);
+                });
+            }
+        } catch (error) {
+            console.error('Failed to fetch hazards:', error);
+        }
+    };
     const handleSearch = () => {
         if (!window.myMapGlobal) {
             console.error('Map not initialized');

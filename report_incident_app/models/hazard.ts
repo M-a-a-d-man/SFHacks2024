@@ -1,11 +1,27 @@
+// import mongoose from 'mongoose';
+
+// const hazardSchema = new mongoose.Schema({
+//     coordinates: {   
+//         lat: Number, 
+//         lng: Number
+//     },
+//     radius: Number, 
+//     lastReportedTime: Date
+// }, { collection: 'danger_zone_reports' });
+
+// export default mongoose.models.Hazard || mongoose.model('Hazard', hazardSchema, 'danger_zone_reports');
+
 import mongoose from 'mongoose';
 
-const hazardSchema = new mongoose.Schema({
+const reportSchema = new mongoose.Schema({
     coordinates: {   
-        lat:Number, 
-        lng:Number
+        lat: Number, 
+        lng: Number
     },
+    radius: Number,
     lastReportedTime: Date
-});
+}, { collection: 'reports' }); // Specify the collection name
 
-export default mongoose.models.Hazard || mongoose.model('Hazard', hazardSchema);
+const Report = mongoose.model('Report', reportSchema);
+
+export default Report;

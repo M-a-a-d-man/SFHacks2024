@@ -2,18 +2,21 @@ import IconButton from '@mui/material/IconButton';
 import CrisisAlertIcon from '@mui/icons-material/CrisisAlert';
 import { initMap } from '../Maps/Map';
 import { draw_circle } from '../../../public/middleware/locationcalc';
-import { postData } from '../../../public/api/api'; // Correct the import path as needed
 
-function createRadius(){
-     // Add marker at the center
-     var marker = new google.maps.Marker({
-        position: centerLocation,
-        map: map,
-        title: 'Center Marker'
-    });
-}
-
-/*
+async function postData(data) {
+    try {
+      const response = await fetch('/api/hazards', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+      return await response.json();
+    } catch (error) {
+      console.error('Error posting data:', error);
+    }
+  }
 const saveHazardToDatabase = async (center, radius) => {
     // Create an object with the data you want to save
     const hazardData = {
@@ -25,7 +28,6 @@ const saveHazardToDatabase = async (center, radius) => {
     // Send the data to the server
     await postData(hazardData);
 };
-*/
 
 export default function Button() {
     const addCircleToMap = () => {
