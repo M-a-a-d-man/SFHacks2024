@@ -1,44 +1,56 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { MapComponent } from "./Components/Maps/Map";
 import Button from "./Components/Button/Button";
 
-export default function Home() {
-  const [data, setData] = useState({});
 
-  const sendDataToServer = async () => {
-    const dummyData = { 
-      report_time: "2024-04-01T00:00:00.000+00:00",
-      hazard_id: "9999999",
-      last_report_user: "user3",
-      coordinates: [40.7128, -74.0060] // Latitude, Longitude
-    };
+/*
 
-    try {
-      const response = await fetch('/api/mongo', { // Ensure this endpoint matches your API route
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(dummyData), // Sending dummyData
-      });
+const hazardSchema = new mongoose.Schema({
+    coordinates: {   
+        lat:number, 
+        lng:number
+    },
+    lastReportedTime: Date
+});
+*/
 
-      if(response.ok) {
-        const responseData = await response.json();
-        console.log("Data Added", responseData);
-        setData(responseData); // Update state with the response
-      } else {
-        console.error("Error", response.statusText);
-      }
+const HazardForm = () => {
+    const [coordinates, setCoordinates] = useState({});
+    const [lastReportedTime, setLastReportedTime] = useState(0);
+}
+
+const handleSubmit = async (e) => {
+    e.preventDefault();
+    try{
+        const res = await fetch('/api/hazards', {
+            method: 'POST',
+            headers: {
+                'Content-Type' : 'application/json',
+            },
+            body: JSON.stringify({coordinates, lastReportedTime}),
+
+        });
+        const data = await res.json();
+        console.log('Hazard reported', data.data);
+        setCoordinates([]);
+        setLastReportedTime = 0;
+
     } catch (error) {
-      console.error('Failed to send data to server:', error);
+        console.error('Error creating task:', error);
     }
-  };
 
+};
+
+export default function Home() {
   return (
     <main>
-      <MapComponent />
-      <Button onClick={sendDataToServer}>Send Data</Button>
+      <MapComponent/>
+      <form onSubmit={handleSubmit}>
+      onChange={(e) => setCoordinates({'lat':30, 'lng':30})}
+      onChange={(e) => setLastReportedTime = 5}
+      </form>
+      <Button onClick= {handleSubmit}>Send Data</Button>
     </main>
   );
 }
