@@ -7,7 +7,7 @@ import Button from '@mui/material/Button';
 import SearchIcon from '@mui/icons-material/Search';
 
 const loader = new Loader({
-    apiKey: "AIzaSyAKcdk8y3vAzqhYFJhJy5E4V51rPBl4Zf4",
+    apiKey: "",
     version: "weekly",
     libraries: ["places", "geometry"],
 });
